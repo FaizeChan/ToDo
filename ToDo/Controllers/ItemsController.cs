@@ -61,6 +61,32 @@ namespace ToDo.Controllers
             return View(item);
         }
 
+        // GET: Items/ToggleDone/5
+        public ActionResult ToggleDone(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            Item item = db.Items.Find(id);
+            if (item == null)
+            {
+                return HttpNotFound();
+            }
+            
+            if(item.IsDone)
+            {
+                item.IsDone = false;
+            }
+            else
+            {
+                item.IsDone = true;
+            }
+            db.SaveChanges();
+
+            return RedirectToAction("Index");
+        }
+
         // GET: Items/Edit/5
         public ActionResult Edit(int? id)
         {
